@@ -31,13 +31,28 @@
     material="color: #4f8cff; opacity: 0.85">
   </a-ocean-plane>
 
-  <!-- Camera with WASD -->
-  <a-entity position="0 1.6 5">
-    <a-camera wasd-controls look-controls>
-      <a-cursor></a-cursor>
-    </a-camera>
-  </a-entity>
+              <!-- Camera rig with controllers as children -->
+      <a-entity id="camera-rig">
+        <a-camera id="camera" position="0 1.6 0"></a-camera>
 
+        <!-- Left controller -->
+        <a-entity
+          id="left-controller"
+          laser-controls="hand: left"
+          raycaster="objects: .interactive; far: 10"
+          line="color: #00ff00; opacity: 0.8; width: 0.02;"
+          thumbstick-audio
+        ></a-entity>
+
+        <!-- Right controller -->
+        <a-entity
+          id="right-controller"
+          laser-controls="hand: right"
+          raycaster="objects: .interactive; far: 10"
+          line="color: #00ff00; opacity: 0.8; width: 0.02;"
+          thumbstick-audio
+        ></a-entity>
+      </a-entity>
 </a-scene>
 
 </body>
