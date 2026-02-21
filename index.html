@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Peer Gynt Ocean</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="./combo-ocean.js"></script>
+  <script src="audio-unlock.js"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+<a-scene>
+   <audio id="ambient-sound" src="morning.mp3" preload="auto"></audio>
+  
+  <!-- Sky (used JPG, EXR won't work) -->
+  <a-sky src="./BlackHoleWallpapers5.jpg"></a-sky>
+
+  <a-entity
+    sound="src: #ambient-sound;
+    autoplay: true;
+    loop: true;
+    volume: 0.5;
+    positional: false">
+  </a-entity>
+
+  <!-- Ocean -->
+  <a-ocean-plane
+    position="0 0 0"
+    material="color: #4f8cff; opacity: 0.85">
+  </a-ocean-plane>
+
+  <!-- Cube -->
+  <a-box
+    position="0 1 -5"
+    color="#00ff88">
+  </a-box>
+
+  <!-- Camera with WASD -->
+  <a-entity position="0 1.6 5">
+    <a-camera wasd-controls look-controls>
+      <a-cursor></a-cursor>
+    </a-camera>
+  </a-entity>
+
+</a-scene>
+
+</body>
+</html>
