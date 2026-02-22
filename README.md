@@ -1,7 +1,7 @@
 # conway-2x-layer
 conway’s game of life but with 2 layers
 
-Evry time the cells from both layers are parallel a BEAM APEARS!
+Every time the cells from both layers are parallel a BEAM APEARS!
 
 LINK: https://captainxico.github.io/conway-2x-layer/
 
