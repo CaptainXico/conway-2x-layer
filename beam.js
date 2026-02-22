@@ -1,5 +1,4 @@
 // beam.js
-// beam.js
 
 AFRAME.registerComponent('beam-system', {
 
