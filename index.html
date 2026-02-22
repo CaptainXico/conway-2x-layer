@@ -27,10 +27,21 @@
   </a-entity>
 
   <!-- Lower Conway Layer -->
-  <a-entity conway-layer="size: 30; cellSize: 0.4; yOffset: -5"></a-entity>
-  
-  <!-- Upper Conway Layer -->
-  <a-entity conway-layer="size: 30; cellSize: 0.4; yOffset: 5"></a-entity>
+  <a-entity conway-layer="
+  layerId: lower;
+  size: 100;
+  worldSize: 100;
+  yOffset: -5;
+  colorAlive: #00ffcc">
+  </a-entity>
+  <!-- upper Conway Layer -->
+  <a-entity conway-layer="
+    layerId: upper;
+    size: 100;
+    worldSize: 100;
+    yOffset: 5;
+    colorAlive: #ff00cc">
+  </a-entity>
 
               <!-- Camera rig with controllers as children -->
       <a-entity id="camera-rig" double-grid="size: 100; divisions: 100; heightOffset: 5">
