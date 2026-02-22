@@ -5,6 +5,7 @@
   <title>conway's 2x layer</title>
   <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   <script src="audio-unlock.js"></script>
+  <script src="grids.js"></script>
 </head>
 
 <body>
@@ -24,21 +25,6 @@
     positional: false">
   </a-entity>
 
-   <!-- grid high -->
-  <a-entity
-  geometry="primitive: grid; width: 100; height: 100; widthSegments: 100; heightSegments: 100"
-  material="color: #cccccc; wireframe: true"
-  rotation="-90 0 0"
-  position="0 8 -10">
-</a-entity>
-
-   <!-- grid low -->
-  <a-entity
-  geometry="primitive: grid; width: 100; height: 100; widthSegments: 100; heightSegments: 100"
-  material="color: #cccccc; wireframe: true"
-  rotation="-90 0 0"
-  position="0 0 -10">
-</a-entity>
               <!-- Camera rig with controllers as children -->
       <a-entity id="camera-rig" double-grid="size: 100; divisions: 100; heightOffset: 5">
         <a-camera id="camera" position="0 1.6 0"></a-camera>
