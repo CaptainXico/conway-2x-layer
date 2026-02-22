@@ -46,28 +46,34 @@
 
   <a-entity beam-system></a-entity>
 
-  <!-- Camera rig with controllers as children -->
-  <a-entity id="camera-rig" double-grid="size: 100; divisions: 100; heightOffset: 5">
-    <a-camera id="camera" position="0 1.6 0"></a-camera>
+      <!-- Camera rig with controllers as children -->
+      <a-entity id="camera-rig" player-jump>
+        <a-camera id="camera" position="0 1.6 0" look-controls="pointerLockEnabled: true">
+          <a-cursor id="desktop-cursor" rayOrigin="mouse" raycaster="objects: .interactive" visible="false" desktop-cursor-only></a-cursor>
+        </a-camera>
 
-    <!-- Left controller -->
-    <a-entity
-      id="left-controller"
-      laser-controls="hand: left"
-      raycaster="objects: .interactive; far: 10"
-      line="color: #00ff00; opacity: 0.8;"
-      thumbstick-audio
-    ></a-entity>
+        <!-- Left controller -->
+        <a-entity
+          id="left-controller"
+          laser-controls="hand: left"
+          raycaster="objects: .interactive; far: 10"
+          line="color: #00ff00; opacity: 0.8; width: 0.02;"
+           cursor="rayOrigin: entity"
+          thumbstick-audio
+          smooth-locomotion
+        ></a-entity>
 
-    <!-- Right controller -->
-    <a-entity
-      id="right-controller"
-      laser-controls="hand: right"
-      raycaster="objects: .interactive; far: 10"
-      line="color: #00ff00; opacity: 0.8;"
-      thumbstick-audio
-      ></a-entity>
-    </a-entity>
+        <!-- Right controller -->
+        <a-entity
+          id="right-controller"
+          laser-controls="hand: right"
+          raycaster="objects: .interactive; far: 10"
+          line="color: #00ff00; opacity: 0.8; width: 0.02;"
+          cursor="rayOrigin: entity"
+          vr-smooth-turn
+          thumbstick-audio
+        ></a-entity>
+      </a-entity>
 </a-scene>
 
 </body>
