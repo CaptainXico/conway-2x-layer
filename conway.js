@@ -42,6 +42,30 @@ AFRAME.registerComponent('conway-layer', {
           x: x * this.cellSize - half + this.cellSize / 2,
           y: d.yOffset,
           z: y * this.cellSize - half + this.cellSize / 2
+
+          // === INFO OVERLAY ===
+          const info = document.createElement('div');
+          
+          info.innerHTML = `
+          Pause / Play<br>
+          PC: SPACEBAR<br>
+          VR: A
+          `;
+          
+          info.style.position = 'fixed';
+          info.style.bottom = '20px';
+          info.style.right = '20px';
+          info.style.color = 'white';
+          info.style.fontFamily = 'monospace';
+          info.style.fontSize = '14px';
+          info.style.background = 'rgba(0,0,0,0.6)';
+          info.style.padding = '10px';
+          info.style.borderRadius = '8px';
+          info.style.zIndex = '9999';
+          info.style.pointerEvents = 'none';
+          
+          document.body.appendChild(info);
+          
         });
 
         cell.setAttribute('color', d.colorDead);
