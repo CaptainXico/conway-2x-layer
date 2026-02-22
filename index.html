@@ -6,6 +6,7 @@
   <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   <script src="audio-unlock.js"></script>
   <script src="grids.js"></script>
+  <script src="conway.js"></script>
 </head>
 
 <body>
@@ -24,6 +25,12 @@
     volume: 0.5;
     positional: false">
   </a-entity>
+
+  <!-- Lower Conway Layer -->
+  <a-entity conway-layer="size: 30; cellSize: 0.4; yOffset: -5"></a-entity>
+  
+  <!-- Upper Conway Layer -->
+  <a-entity conway-layer="size: 30; cellSize: 0.4; yOffset: 5"></a-entity>
 
               <!-- Camera rig with controllers as children -->
       <a-entity id="camera-rig" double-grid="size: 100; divisions: 100; heightOffset: 5">
