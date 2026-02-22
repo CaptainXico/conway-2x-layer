@@ -104,5 +104,6 @@ AFRAME.registerComponent('conway-layer', {
         );
       }
     }
+    this.el.sceneEl.emit('conway-step');
   }
 });
