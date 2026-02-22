@@ -1,16 +1,13 @@
 // beam.js
-
 AFRAME.registerComponent('beam-system', {
 
   init: function () {
-
-    this.tick = this.tick.bind(this);
-    this.el.sceneEl.addEventListener('loaded', () => {
-      this.el.sceneEl.addBehavior(this);
+    this.sceneEl.addEventListener('conway-step', () => {
+      this.checkAlignment();
     });
   },
 
-  tick: function () {
+  checkAlignment: function () {
 
     const layers = window.conwayLayers;
     if (!layers || !layers.lower || !layers.upper) return;
@@ -25,13 +22,14 @@ AFRAME.registerComponent('beam-system', {
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
 
-        if (lower.grid[y][x] === 1 && upper.grid[y][x] === 1) {
+        if (lower.grid[y][x] && upper.grid[y][x]) {
 
           const beam = document.createElement('a-cylinder');
 
-          beam.setAttribute('radius', cellSize * 0.2);
+          beam.setAttribute('radius', cellSize * 0.15);
           beam.setAttribute('height', 10);
           beam.setAttribute('color', '#ffff00');
+          beam.setAttribute('material', 'transparent: true; opacity: 1');
 
           beam.setAttribute('position', {
             x: x * cellSize - half + cellSize / 2,
@@ -41,19 +39,13 @@ AFRAME.registerComponent('beam-system', {
 
           beam.setAttribute('animation', {
             property: 'material.opacity',
-            from: 1,
             to: 0,
-            dur: 500,
-            easing: 'linear'
+            dur: 400
           });
-
-          beam.setAttribute('material', 'transparent: true');
 
           this.el.appendChild(beam);
 
-          setTimeout(() => {
-            beam.remove();
-          }, 500);
+          setTimeout(() => beam.remove(), 400);
         }
       }
     }
