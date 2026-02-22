@@ -1,9 +1,14 @@
 // beam.js
+// beam.js
+
 AFRAME.registerComponent('beam-system', {
 
   init: function () {
-    this.sceneEl.addEventListener('conway-step', () => {
-      this.checkAlignment();
+    // Wait until scene is fully loaded
+    this.el.sceneEl.addEventListener('loaded', () => {
+      this.el.sceneEl.addEventListener('conway-step', () => {
+        this.checkAlignment();
+      });
     });
   },
 
