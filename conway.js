@@ -1,11 +1,12 @@
 // conway.js
+// conway.js
 
 AFRAME.registerComponent('conway-layer', {
   schema: {
-    size: { type: 'int', default: 100 },        // must match grid divisions
-    worldSize: { type: 'number', default: 100 }, // must match grid size
+    size: { type: 'int', default: 30 },
+    worldSize: { type: 'number', default: 30 },
     yOffset: { type: 'number', default: 0 },
-    tickSpeed: { type: 'number', default: 300 },
+    tickSpeed: { type: 'number', default: 400 },
     colorAlive: { type: 'color', default: '#00ffcc' },
     colorDead: { type: 'color', default: '#111111' },
     layerId: { type: 'string', default: 'layer1' }
@@ -28,13 +29,16 @@ AFRAME.registerComponent('conway-layer', {
 
       for (let x = 0; x < d.size; x++) {
 
-        this.grid[y][x] = Math.random() > 0.75 ? 1 : 0;
+        // START EMPTY
+        this.grid[y][x] = 0;
         this.nextGrid[y][x] = 0;
 
         const cell = document.createElement('a-box');
+        cell.classList.add('interactive');
+
         cell.setAttribute('width', this.cellSize);
         cell.setAttribute('depth', this.cellSize);
-        cell.setAttribute('height', 0.1);
+        cell.setAttribute('height', 0.15);
 
         cell.setAttribute('position', {
           x: x * this.cellSize - half + this.cellSize / 2,
@@ -42,16 +46,30 @@ AFRAME.registerComponent('conway-layer', {
           z: y * this.cellSize - half + this.cellSize / 2
         });
 
-        cell.setAttribute('color',
-          this.grid[y][x] ? d.colorAlive : d.colorDead
-        );
+        cell.setAttribute('color', d.colorDead);
+
+        // STORE COORDS
+        cell.dataset.x = x;
+        cell.dataset.y = y;
+
+        // CLICK TO TOGGLE
+        cell.addEventListener('click', (evt) => {
+          const cx = parseInt(evt.target.dataset.x);
+          const cy = parseInt(evt.target.dataset.y);
+
+          this.grid[cy][cx] = this.grid[cy][cx] ? 0 : 1;
+
+          evt.target.setAttribute(
+            'color',
+            this.grid[cy][cx] ? d.colorAlive : d.colorDead
+          );
+        });
 
         this.el.appendChild(cell);
         this.cells[y][x] = cell;
       }
     }
 
-    // Register globally for beam detection
     window.conwayLayers = window.conwayLayers || {};
     window.conwayLayers[d.layerId] = this;
 
@@ -104,6 +122,7 @@ AFRAME.registerComponent('conway-layer', {
         );
       }
     }
+
     this.el.sceneEl.emit('conway-step');
   }
 });
