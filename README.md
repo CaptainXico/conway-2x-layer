@@ -1,6 +1,8 @@
 # conway-2x-layer
 conway’s game of life but with 2 layers
 
+WOW... its too much for my PC...
+
 LINK: https://captainxico.github.io/conway-2x-layer/
 
 Rule 1: Birth
