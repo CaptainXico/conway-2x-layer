@@ -36,7 +36,7 @@ VR: A
 `;
     info.style.position = 'fixed';
     info.style.bottom = '20px';
-    info.style.right = '20px';
+    info.style.left = '20px';
     info.style.color = 'white';
     info.style.fontFamily = 'monospace';
     info.style.fontSize = '14px';
