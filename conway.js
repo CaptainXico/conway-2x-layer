@@ -1,12 +1,10 @@
 // conway.js
-// conway.js
-
 AFRAME.registerComponent('conway-layer', {
   schema: {
     size: { type: 'int', default: 30 },
     worldSize: { type: 'number', default: 30 },
     yOffset: { type: 'number', default: 0 },
-    tickSpeed: { type: 'number', default: 400 },
+    tickSpeed: { type: 'number', default: 800 }, // SLOWER
     colorAlive: { type: 'color', default: '#00ffcc' },
     colorDead: { type: 'color', default: '#111111' },
     layerId: { type: 'string', default: 'layer1' }
@@ -15,6 +13,7 @@ AFRAME.registerComponent('conway-layer', {
   init: function () {
     const d = this.data;
 
+    this.running = false; // START PAUSED
     this.cellSize = d.worldSize / d.size;
     this.grid = [];
     this.nextGrid = [];
@@ -29,7 +28,6 @@ AFRAME.registerComponent('conway-layer', {
 
       for (let x = 0; x < d.size; x++) {
 
-        // START EMPTY
         this.grid[y][x] = 0;
         this.nextGrid[y][x] = 0;
 
@@ -48,11 +46,9 @@ AFRAME.registerComponent('conway-layer', {
 
         cell.setAttribute('color', d.colorDead);
 
-        // STORE COORDS
         cell.dataset.x = x;
         cell.dataset.y = y;
 
-        // CLICK TO TOGGLE
         cell.addEventListener('click', (evt) => {
           const cx = parseInt(evt.target.dataset.x);
           const cy = parseInt(evt.target.dataset.y);
@@ -73,7 +69,17 @@ AFRAME.registerComponent('conway-layer', {
     window.conwayLayers = window.conwayLayers || {};
     window.conwayLayers[d.layerId] = this;
 
-    this.interval = setInterval(() => this.step(), d.tickSpeed);
+    // SPACEBAR TO TOGGLE RUNNING
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        this.running = !this.running;
+        console.log("Conway running:", this.running);
+      }
+    });
+
+    this.interval = setInterval(() => {
+      if (this.running) this.step();
+    }, d.tickSpeed);
   },
 
   countNeighbors(x, y) {
