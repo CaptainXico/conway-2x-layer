@@ -8,6 +8,7 @@
   <script src="audio-unlock.js"></script>
   <script src="movement.js"></script>
   <script src="grids.js"></script>
+  <script src="labels.js"></script>
   <script src="conway.js"></script>
   <script src="beam.js"></script>
   <script src="music.js"></script>
@@ -20,22 +21,17 @@
   <!-- Sky (used JPG, EXR won't work) -->
   <a-sky src="./nebula.jpg"></a-sky>
 
-  <!-- Lower Conway Layer -->
-  <a-entity conway-layer="
-  layerId: lower;
-  size: 30;
-  worldSize: 30;
-  yOffset: -5;
-  colorAlive: #00ffcc">
-  </a-entity>
-  <!-- upper Conway Layer -->
-  <a-entity conway-layer="
-    layerId: upper;
-    size: 30;
-    worldSize: 30;
-    yOffset: 5;
-    colorAlive: #ff00cc">
-  </a-entity>
+ <!-- Lower Layer -->
+<a-entity
+  conway-layer="layerId: lower; size: 30; worldSize: 30; yOffset: -5;"
+  grid-labels="size: 30; worldSize: 30; yOffset: -5;">
+</a-entity>
+
+<!-- Upper Layer -->
+<a-entity
+  conway-layer="layerId: upper; size: 30; worldSize: 30; yOffset: 5;"
+  grid-labels="size: 30; worldSize: 30; yOffset: 5;">
+</a-entity>
 
   <a-entity beam-system></a-entity>
 
