@@ -6,7 +6,7 @@ AFRAME.registerComponent('grid-labels', {
     size: { type: 'int', default: 30 },
     worldSize: { type: 'number', default: 30 },
     yOffset: { type: 'number', default: 0 },
-    side: { type: 'string', default: 'front' } // front or left
+    layerId: { type: 'string', default: 'lower' }
   },
 
   init: function () {
@@ -17,7 +17,11 @@ AFRAME.registerComponent('grid-labels', {
 
     const notes = ["Do", "Re", "Mi", "Fa", "So", "La", "Si"];
 
-    // === COLUMN LABELS (Do Re Mi...) ===
+    // Store labels globally so music system can access them
+    window.noteLabels = window.noteLabels || {};
+    window.noteLabels[d.layerId] = [];
+
+    // === COLUMN LABELS ===
     for (let x = 0; x < d.size; x++) {
 
       const note = notes[x % 7];
@@ -34,10 +38,14 @@ AFRAME.registerComponent('grid-labels', {
         z: -half - 1
       });
 
+      label.setAttribute('billboard', '');
+
       this.el.appendChild(label);
+
+      window.noteLabels[d.layerId][x] = label;
     }
 
-    // === ROW LABELS (1 → 7 scales) ===
+    // === ROW LABELS (numbers) ===
     for (let y = 0; y < d.size; y++) {
 
       const scaleNumber = (y % 7) + 1;
@@ -54,10 +62,19 @@ AFRAME.registerComponent('grid-labels', {
         z: y * cellSize - half + cellSize / 2
       });
 
-      label.setAttribute('rotation', '0 90 0');
+      label.setAttribute('billboard', '');
 
       this.el.appendChild(label);
     }
+  }
+});
 
+
+/* BILLBOARD COMPONENT */
+AFRAME.registerComponent('billboard', {
+  tick: function () {
+    const camera = this.el.sceneEl.camera;
+    if (!camera) return;
+    this.el.object3D.lookAt(camera.position);
   }
 });
