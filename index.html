@@ -15,20 +15,9 @@
 
 <body>
 
-<a-scene>
-   <audio id="ambient-sound" src="morning.mp3" preload="auto"></audio>
-  
+<a-scene>  
   <!-- Sky (used JPG, EXR won't work) -->
   <a-sky src="./nebula.jpg"></a-sky>
-
-  <a-entity
-    id="background-sound"
-    sound="src: #ambient-sound;
-    autoplay: true;
-    loop: true;
-    volume: 0.5;
-    positional: false">
-  </a-entity>
 
   <!-- Lower Conway Layer -->
   <a-entity conway-layer="
