@@ -17,33 +17,59 @@ class ConwayMusic {
     ];
   }
 
-  playNote(column, row) {
-    if (column > 6) return; // Only 7 notes
+playNote(column, row) {
 
-    const baseFreq = this.baseFrequencies[column];
+  if (column > 6) return;
 
-    // Row 0–6 → scale 1–7
-    const octaveMultiplier = Math.pow(2, row - 3);
-    const frequency = baseFreq * octaveMultiplier;
+  const baseFreq = this.baseFrequencies[column];
+  const octaveMultiplier = Math.pow(2, row - 3);
+  const frequency = baseFreq * octaveMultiplier;
 
-    const oscillator = this.audioCtx.createOscillator();
-    const gainNode = this.audioCtx.createGain();
+  const oscillator = this.audioCtx.createOscillator();
+  const gainNode = this.audioCtx.createGain();
 
-    oscillator.type = "sine"; // smooth tone
-    oscillator.frequency.value = frequency;
+  oscillator.type = "sine";
+  oscillator.frequency.value = frequency;
 
-    oscillator.connect(gainNode);
-    gainNode.connect(this.audioCtx.destination);
+  oscillator.connect(gainNode);
+  gainNode.connect(this.audioCtx.destination);
 
-    gainNode.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.0001,
-      this.audioCtx.currentTime + 0.6
-    );
+  gainNode.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(
+    0.0001,
+    this.audioCtx.currentTime + 0.6
+  );
 
-    oscillator.start();
-    oscillator.stop(this.audioCtx.currentTime + 0.6);
+  oscillator.start();
+  oscillator.stop(this.audioCtx.currentTime + 0.6);
+
+  // === GLOW EFFECT ===
+  if (window.noteLabels) {
+
+    for (const layer in window.noteLabels) {
+
+      const label = window.noteLabels[layer][column];
+      if (!label) continue;
+
+      label.setAttribute('animation__glow', {
+        property: 'scale',
+        to: '1.6 1.6 1.6',
+        dur: 150,
+        dir: 'alternate',
+        loop: 1,
+        easing: 'easeOutQuad'
+      });
+
+      label.setAttribute('animation__color', {
+        property: 'color',
+        to: '#ffff00',
+        dur: 150,
+        dir: 'alternate',
+        loop: 1
+      });
+    }
   }
+}
 }
 
 window.conwayMusic = new ConwayMusic();
