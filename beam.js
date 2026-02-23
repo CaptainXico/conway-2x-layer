@@ -1,57 +1,70 @@
 // beam.js
+// Creates beams when both layers have parallel live cells
+// Also plays musical notes based on grid position
 
 AFRAME.registerComponent('beam-system', {
 
   init: function () {
-    // Wait until scene is fully loaded
-    this.el.sceneEl.addEventListener('loaded', () => {
-      this.el.sceneEl.addEventListener('conway-step', () => {
-        this.checkAlignment();
-      });
+
+    this.scene = this.el.sceneEl;
+    this.activeBeams = [];
+
+    // Listen for Conway step event
+    this.scene.addEventListener('conway-step', () => {
+      this.checkBeams();
     });
   },
 
-  checkAlignment: function () {
+  checkBeams: function () {
 
-    const layers = window.conwayLayers;
-    if (!layers || !layers.lower || !layers.upper) return;
+    const layer1 = window.conwayLayers?.layer1;
+    const layer2 = window.conwayLayers?.layer2;
 
-    const lower = layers.lower;
-    const upper = layers.upper;
+    if (!layer1 || !layer2) return;
 
-    const size = lower.data.size;
-    const cellSize = lower.cellSize;
-    const half = lower.data.worldSize / 2;
+    const size = layer1.data.size;
+
+    // Remove old beams
+    this.activeBeams.forEach(beam => beam.remove());
+    this.activeBeams = [];
 
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
 
-        if (lower.grid[y][x] && upper.grid[y][x]) {
+        const alive1 = layer1.grid[y][x];
+        const alive2 = layer2.grid[y][x];
 
+        // If both cells alive → create beam + play note
+        if (alive1 && alive2) {
+
+          const cell1 = layer1.cells[y][x];
+          const cell2 = layer2.cells[y][x];
+
+          const pos1 = cell1.getAttribute('position');
+          const pos2 = cell2.getAttribute('position');
+
+          // Create beam (vertical box between layers)
           const beam = document.createElement('a-cylinder');
 
-          beam.setAttribute('radius', cellSize * 0.15);
-          beam.setAttribute('height', 10);
+          beam.setAttribute('radius', 0.05);
+          beam.setAttribute('height', Math.abs(pos2.y - pos1.y));
           beam.setAttribute('color', '#ffff00');
-          beam.setAttribute('material', 'transparent: true; opacity: 1');
-
           beam.setAttribute('position', {
-            x: x * cellSize - half + cellSize / 2,
-            y: 0,
-            z: y * cellSize - half + cellSize / 2
+            x: pos1.x,
+            y: (pos1.y + pos2.y) / 2,
+            z: pos1.z
           });
 
-          beam.setAttribute('animation', {
-            property: 'material.opacity',
-            to: 0,
-            dur: 400
-          });
+          this.scene.appendChild(beam);
+          this.activeBeams.push(beam);
 
-          this.el.appendChild(beam);
-
-          setTimeout(() => beam.remove(), 400);
+          // 🎵 PLAY MUSIC
+          if (window.conwayMusic) {
+            window.conwayMusic.playNote(x % 7, y % 7);
+          }
         }
       }
     }
   }
+
 });
