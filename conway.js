@@ -27,25 +27,19 @@ AFRAME.registerComponent('conway-layer', {
       console.log("Conway running:", this.running);
     };
 
-    // --- CREATE INFO OVERLAY ---
-    const info = document.createElement('div');
-    info.innerHTML = `
-Pause / Play<br>
-PC: SPACEBAR<br>
-VR: A
-`;
-    info.style.position = 'fixed';
-    info.style.bottom = '20px';
-    info.style.left = '20px';
-    info.style.color = 'white';
-    info.style.fontFamily = 'monospace';
-    info.style.fontSize = '14px';
-    info.style.background = 'rgba(0,0,0,0.6)';
-    info.style.padding = '10px';
-    info.style.borderRadius = '8px';
-    info.style.zIndex = '9999';
-    info.style.pointerEvents = 'none';
-    document.body.appendChild(info);
+       // --- CREATE INFO OVERLAY ---
+    let info = document.getElementById('conway-info');
+    
+    if (!info) {
+      info = document.createElement('div');
+      info.id = 'conway-info';
+      info.innerHTML = `
+    Pause / Play<br>
+    PC: SPACEBAR<br>
+    VR: A
+    `;
+      document.body.appendChild(info);
+    }
 
     // --- BUILD GRID ---
     for (let y = 0; y < d.size; y++) {
