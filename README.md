@@ -2,6 +2,7 @@
 conway’s game of life but with 2 layers
 
 Every time the cells from both layers are parallel a BEAM APEARS!
+And at every beam, a note is sound
 
 LINK: https://captainxico.github.io/conway-2x-layer/
 
