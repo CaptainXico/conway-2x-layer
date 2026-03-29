@@ -98,16 +98,7 @@ AFRAME.registerComponent('conway-layer', {
       }
     });
 
-    // --- VR CONTROLLER INPUT: Pico 4 A BUTTON ---
-    this.el.sceneEl.addEventListener('loaded', () => {
-      const controllers = document.querySelectorAll('[tracked-controls]');
-      controllers.forEach(controller => {
-        controller.addEventListener('abuttondown', () => {
-          this.toggleRun();
-        });
-      });
-    });
-
+    
     // --- SIMULATION LOOP ---
     this.interval = setInterval(() => {
       if (this.running) this.step();
